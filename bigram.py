@@ -4,7 +4,7 @@ from torch.nn import functional as F
 
 import logging
 
-logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.info)
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.INFO)
 
 # hyperparameters
 batch_size = 64 # how many independent sequences will we process in parallel?
