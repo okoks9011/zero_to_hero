@@ -210,3 +210,5 @@ logging.info('train complete')
 
 with open('output.txt', 'w') as f:
     f.write(decode(m.generate(context, max_new_tokens=10000)[0].tolist()))
+
+logging.info('generate complete')
