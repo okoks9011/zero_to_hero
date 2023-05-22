@@ -2,6 +2,10 @@ import torch
 import torch.nn as nn
 from torch.nn import functional as F
 
+import logging
+
+logging.basicConfig(format='%(asctime)s %(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.info)
+
 # hyperparameters
 batch_size = 64 # how many independent sequences will we process in parallel?
 block_size = 256 # what is the maximum context length for predictions?
@@ -9,7 +13,7 @@ max_iters = 5000
 eval_interval = 500
 learning_rate = 3e-4
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
-print(f'device is {device}')
+logging.info(f'device is {device}')
 eval_iters = 200
 n_embd = 384
 n_head = 6
@@ -188,7 +192,7 @@ for iter in range(max_iters):
     # every once in a while evaluate the loss on train and val sets
     if iter % eval_interval == 0:
         losses = estimate_loss()
-        print(f"step {iter}: train loss {losses['train']:.4f}, val loss {losses['val']:.4f}")
+        logging.info(f"step {iter}: train loss {losses['train']:.4f}, val loss {losses['val']:.4f}")
 
     # sample a batch of data
     xb, yb = get_batch('train')
@@ -201,4 +205,8 @@ for iter in range(max_iters):
 
 # generate from the model
 context = torch.zeros((1, 1), dtype=torch.long, device=device)
-print(decode(m.generate(context, max_new_tokens=500)[0].tolist()))
+
+logging.info('train complete')
+
+with open('output.txt', 'w') as f:
+    f.write(decode(m.generate(context, max_new_tokens=10000)[0].tolist()))
